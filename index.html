@@ -1,33 +1,63 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="UTF-8">
-    <title>Barcode Verification</title>
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+  <meta charset="UTF-8">
+  <title>Barcode Verification</title>
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+  <link rel="stylesheet" href="./bulma.min.css">
 
 </head>
 <body>
-    <section class="hero is-info is-fullheight">
-        <div class="hero-body">
-          <div class="container">
-            <div class="field">
-                <div class="control">
-                    <h1>Powered by Sparc Systems</h1>
-                    <br>
-                  <input class="input is-large is-rounded" type="text" placeholder="barcode" autofocus id="barcode"  onkeyup="searchID(this);">
-                </div>
+  <section class="hero is-info is-fullheight">
+    <div class="hero-body">
+      <div class="container">
+        <div class="field">
+          <div class="control">
+            <h1>Powered by Sparc Systems</h1>
+            <br>
+            <input class="input is-large is-rounded" type="text" placeholder="barcode" autofocus id="barcode"
+              onkeyup="searchID(this);">
           </div>
         </div>
+      </div>
+  </section>
+  <div class="modal" id="mod">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Error</p>
+        <button class="delete" aria-label="close" onclick="closeModal()"></button>
+      </header>
+      <section class="modal-card-body is-danger">
+        <!-- Content ... -->
+        <h1 id="error"> An Error has occured</h1>
       </section>
+      <footer class="modal-card-foot">
+        <button class="button" onclick="closeModal()">Cancel</button>
+      </footer>
+    </div>
+  </div>
 </body>
+<script src="./database.js"></script>
 <script>
-    function searchID(e){
-        var lastChar = e.value.substr(e.value.length - 1); 
-        if(lastChar == '$') {
-            alert(e.value.slice(0, -1));
-            e.value = null;
-        }
+  function searchID(e) {
+    var lastChar = e.value.substr(e.value.length - 1);
+    if (lastChar == '$') {
+      let number = (e.value.slice(0, -1));
+      insertData(number);
+      e.value = null;
     }
+  }
+
+  function openModal(error) {
+    document.getElementById('mod').classList.add("is-active");
+    document.getElementById('error').innerHTML = (error);
+  }
+  function closeModal() {
+    document.getElementById('mod').classList.remove("is-active");
+    document.getElementById("barcode").focus();
+  }
 </script>
+
 </html>
